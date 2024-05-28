@@ -2,9 +2,9 @@
 /*
 查询示例：
 const ApiSqlite = require("./src/js/ApiSqlite");
-const apiSqlite = new ApiSqlite("./src/data/api_db.db");
+const db = new ApiSqlite("./src/data/api_db.db");
 
-apiSqlite.query("select * from hs_routes").then((result)=>{
+db.query("select * from hs_routes").then((result)=>{
 	console.log(result)
 })
 
@@ -31,7 +31,39 @@ export default class ApiSqlite{
 
 
     /**
-     apiSqlite.add(
+     db.create_table(
+             `
+             CREATE TABLE IF NOT EXISTS users (
+             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+             name TEXT NOT NULL,
+             age INTEGER NOT NULL
+             )
+             `
+     ).then((result)=>{
+        console.log(result)
+     })
+     * @param sql 新建表结构sql
+     */
+    create_table(sql) {
+        return new Promise(async (resolve, reject) => {
+            try{
+                // 保证连接对象存在
+                if(!this.db) await this.init_link();
+
+                // 执行新建表结构
+                this.db.exec(sql);
+
+                // 数据同步到sqlite文件
+                this.writeSqlite();
+                resolve("ok")
+            }catch (e) {
+                reject(e)
+            }
+        })
+    }
+
+    /**
+     db.add(
      "INSERT INTO hs_routes(method, url, response) VALUES (?, ?,?)",
      ["post", "/user", "123"]
      ).then((result)=>{
@@ -63,7 +95,55 @@ export default class ApiSqlite{
 
 
     /**
-     apiSqlite.delete(
+     db.add_more(
+        "table_name",
+         [
+             { name: "Let's Go", email: "alice@example.com" },
+             { name: "Bob", email: "bob@example.com" },
+             { name: "Charlie", email: "charlie@example.com" }
+         ]
+     ).then((result)=>{
+        console.log(result)
+     })
+     * @param table_name
+     * @param data
+     */
+    add_more(table_name, data = []) {
+        return new Promise(async (resolve, reject) => {
+            try{
+                // 保证连接对象存在
+                if(!this.db) await this.init_link();
+
+                // 构建批量INSERT语句
+                let field_str = Object.keys(data[0]).join(',');
+                const batchInsertQuery = data.map(json_data => {
+                    let sql_val_str = ""
+                    for (const json_data_key in json_data) {
+                        if(Number.isInteger(json_data[json_data_key])){
+                            sql_val_str +=  json_data[json_data_key] + ","
+                        }else{
+                            sql_val_str +=  '"' + json_data[json_data_key].replace(/(["'])/g, '\\$1') +'",'
+                        }
+
+                    }
+                    sql_val_str = sql_val_str.slice(0, -1);
+                    return `INSERT INTO ${table_name}(${field_str}) VALUES(${sql_val_str});`
+                }).join('');
+
+                // 执行sql
+                this.db.run(batchInsertQuery);
+
+                // 数据同步到sqlite文件
+                this.writeSqlite();
+                resolve("ok")
+            }catch (e) {
+                reject(e)
+            }
+        })
+    }
+
+    /**
+     db.delete(
      "DELETE FROM hs_routes WHERE id=?",
      [7]
      ).then((result)=>{
@@ -94,7 +174,34 @@ export default class ApiSqlite{
     }
 
     /**
-     apiSqlite.update(
+     db.delete(
+        "DELETE FROM hs_routes"
+     [7]
+     ).then((result)=>{
+        console.log(result)
+     })
+     * @param sql
+     */
+    clear(sql){
+        return new Promise(async (resolve, reject) => {
+            try{
+                // 保证连接对象存在
+                if(!this.db) await this.init_link();
+
+                this.db.run(sql); // 执行sql
+
+                // 数据同步到sqlite文件
+                this.writeSqlite();
+                resolve("ok")
+            }catch (e) {
+                reject(e)
+            }
+        })
+    }
+
+
+    /**
+     db.update(
      "UPDATE hs_routes SET response=? WHERE id=?",
      ["999",1]
      ).then((result)=>{
@@ -125,7 +232,7 @@ export default class ApiSqlite{
     }
 
     /**
-     apiSqlite.query("select* from hs_routes").then((result)=>{
+     db.query("select* from hs_routes").then((result)=>{
             console.log(result)
          })
 
