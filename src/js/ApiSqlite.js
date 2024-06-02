@@ -245,7 +245,7 @@ export default class ApiSqlite{
                 // 保证连接对象存在
                 if(!this.db) await this.init_link();
 
-                // 执行新增
+                // 执行sql
                 const query_stmt = this.db.prepare(sql);
                 query_stmt.bind(sqlArgs); //绑定值
                 const result = [];

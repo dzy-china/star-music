@@ -3,23 +3,20 @@
 
   <div class="cube-container">
     <div class="cube">
-      <div class="face front" :style="{'background-image':`url(${cube_image})`}"></div>
-      <div class="face back" :style="{'background-image':`url(${cube_image})`}"></div>
-      <div class="face right" :style="{'background-image':`url(${cube_image})`}"></div>
-      <div class="face left" :style="{'background-image':`url(${cube_image})`}"></div>
-      <div class="face top" :style="{'background-image':`url(${cube_image})`}"></div>
-      <div class="face bottom" :style="{'background-image':`url(${cube_image})`}"></div>
+      <div class="face front" :style="{'background-image':`url(${musicStore.curPlayMusicObj.img})`}"></div>
+      <div class="face back" :style="{'background-image':`url(${musicStore.curPlayMusicObj.img})`}"></div>
+      <div class="face right" :style="{'background-image':`url(${musicStore.curPlayMusicObj.img})`}"></div>
+      <div class="face left" :style="{'background-image':`url(${musicStore.curPlayMusicObj.img})`}"></div>
+      <div class="face top" :style="{'background-image':`url(${musicStore.curPlayMusicObj.img})`}"></div>
+      <div class="face bottom" :style="{'background-image':`url(${musicStore.curPlayMusicObj.img})`}"></div>
     </div>
   </div>
 </template>
 <script setup>
-// 定义 props
-const props = defineProps({
-  cube_image: { // 音乐缩略图
-    type: String,
-    default: 'https://www.vae.zhangweicheng.xyz/VAE_Article_ShouTu/vae/6802ac85-9f22-4cc4-b812-87238f103c36.jpg'
-  },
-})
+
+import { useMusicStore } from "@/store/music";
+const musicStore = useMusicStore()
+
 </script>
 <style scoped>
 .cube-container {
