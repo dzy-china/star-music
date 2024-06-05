@@ -13,12 +13,16 @@
           <span class="hs-margin-left-5 hs-font-size-0103 ">星音乐</span></div>
 
         <div class="hs-col- hs-child-ini hs-child-padding-left-right-15 hs-child-height-40  hs-child-line-height-40  hs-child-display-inline-block hs-child-cursor-pointer">
+          <router-link to="/category"  active-class="hs-background-color-white-01 hs-border-radius-10">
+            分类
+          </router-link>
+
           <router-link to="/rank"  active-class="hs-background-color-white-01 hs-border-radius-10">
             排行榜
           </router-link>
 
-          <router-link to="/category"  active-class="hs-background-color-white-01 hs-border-radius-10">
-            分类
+          <router-link to="/my_playing_music"  active-class="hs-background-color-white-01 hs-border-radius-10">
+            播放列表
           </router-link>
         </div>
       </div>
@@ -47,11 +51,9 @@
 import musicPanel from './components/musicPanel';
 import musicProgress from './components/musicProgress';
 import musicActive from './components/musicActive';
-import ApiSqlite from "@/js/ApiSqlite";
-const path = require("path");
+
 import { useMusicStore } from "@/store/music";
 const musicStore = useMusicStore()
-const db = new ApiSqlite(path.resolve(import.meta.env.DEV?"public/":"resources/", "db/music_data.db"));
 
 // 播放器ref
 const audioRef = ref(null)
@@ -59,14 +61,14 @@ const audioRef = ref(null)
 // dom挂载完成事件
 onMounted( async () => {
   musicStore.audioRef = audioRef.value
-
+  const hs_playing_music_index = localStorage.getItem("hs_playing_music_index")
   // 初始化音乐数据和索引
-  musicStore.musicList = await db.query("select * from my_playing_music_list")
-  if(localStorage.getItem("hs_playing_music_index")
-      && localStorage.getItem("hs_playing_music_index")>=0
-      && localStorage.getItem("hs_playing_music_index")<=musicStore.musicList.length-1
-  ){
-    musicStore.songIndexObj.index = localStorage.getItem("hs_playing_music_index")
+  const result = await musicStore.db.query("select * from my_playing_music_list")
+  if(result && result.code === 200 ){
+    musicStore.musicList = result.msg
+  }
+  if( hs_playing_music_index && musicStore.musicList[hs_playing_music_index] ){
+    musicStore.songIndexObj.index = hs_playing_music_index
   }else{
     musicStore.songIndexObj.index = 0
   }

@@ -55,7 +55,8 @@ export default class ApiSqlite{
 
                 // 数据同步到sqlite文件
                 this.writeSqlite();
-                resolve("ok")
+
+                resolve({code:200,msg:'ok'})
             }catch (e) {
                 reject(e)
             }
@@ -67,7 +68,7 @@ export default class ApiSqlite{
      "INSERT INTO hs_routes(method, url, response) VALUES (?, ?,?)",
      ["post", "/user", "123"]
      ).then((result)=>{
-                console.log(result)
+                console.log(result) // {code:200,msg:lastInsertedId}
             })
      * @param sql
      * @param sqlArgs
@@ -78,16 +79,15 @@ export default class ApiSqlite{
                 // 保证连接对象存在
                 if(!this.db) await this.init_link();
 
-                // 执行新增
-                const stmt = this.db.prepare(sql);
-                stmt.bind(sqlArgs); //绑定值
-                stmt.run(); // 执行sql
-                stmt.free(); // 释放语句使用的内存
+                // 执行
+                this.db.run(sql, sqlArgs)
 
                 // 数据同步到sqlite文件
                 this.writeSqlite();
-                resolve("ok")
+
+                resolve({code:200,msg: 'ok'})
             }catch (e) {
+                console.error("数据库操作失败:", e);
                 reject(e)
             }
         })
@@ -135,7 +135,8 @@ export default class ApiSqlite{
 
                 // 数据同步到sqlite文件
                 this.writeSqlite();
-                resolve("ok")
+
+                resolve({code:200,msg:'ok'})
             }catch (e) {
                 reject(e)
             }
@@ -158,15 +159,13 @@ export default class ApiSqlite{
                 // 保证连接对象存在
                 if(!this.db) await this.init_link();
 
-                // 执行新增
-                const stmt = this.db.prepare(sql);
-                stmt.bind(sqlArgs); //绑定值
-                stmt.run(); // 执行sql
-                stmt.free(); // 释放语句使用的内存
+                // 执行
+                this.db.run(sql, sqlArgs)
 
                 // 数据同步到sqlite文件
                 this.writeSqlite();
-                resolve("ok")
+
+                resolve({code:200,msg:'ok'})
             }catch (e) {
                 reject(e)
             }
@@ -192,7 +191,8 @@ export default class ApiSqlite{
 
                 // 数据同步到sqlite文件
                 this.writeSqlite();
-                resolve("ok")
+
+                resolve({code:200,msg:'ok'})
             }catch (e) {
                 reject(e)
             }
@@ -216,15 +216,13 @@ export default class ApiSqlite{
                 // 保证连接对象存在
                 if(!this.db) await this.init_link();
 
-                // 执行新增
-                const stmt = this.db.prepare(sql);
-                stmt.bind(sqlArgs); //绑定值
-                stmt.run(); // 执行sql
-                stmt.free(); // 释放语句使用的内存
+                // 执行
+                this.db.run(sql, sqlArgs); // 执行sql
 
                 // 数据同步到sqlite文件
                 this.writeSqlite();
-                resolve("ok")
+
+                resolve({code:200,msg:'ok'})
             }catch (e) {
                 reject(e)
             }
@@ -254,11 +252,11 @@ export default class ApiSqlite{
                     result.push(row)
                 }
 
-                // 释放语句使用的内存*/
+                // 释放语句使用的内存
                 query_stmt.free();
 
                 // 响应获取到的数据
-                resolve(result)
+                resolve({code:200,msg:result})
             }catch(e){
                 reject(e)
             }
@@ -274,4 +272,5 @@ export default class ApiSqlite{
         const buffer = Buffer.from(data);
         fs.writeFileSync(this.sqlitePath, buffer);
     }
+
 }

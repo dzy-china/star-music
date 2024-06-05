@@ -54,17 +54,15 @@
 <script setup>
 /*导入值*/
   import format_line_music_rank_to_local from "page@/rank/format_line_music_rank_to_local";
-  const path = require('path');
+
   const cheerio = require('cheerio');
   import Http from "@/js/Http"
   import time from "@/js/time";
   import common_str_action from "@/js/common_str_action";
-  import ApiSqlite from "@/js/ApiSqlite"
+
   import { useMusicStore } from "@/store/music";
-  import common_api_action from "@/js/common_api_action";
 
 /*定义变量*/
-  const db = new ApiSqlite(path.resolve(import.meta.env.DEV?"public/":"resources/", "db/music_data.db"));
   const cur_rank_title = ref('飙升榜') // 当前选中的标题
   const update_time = ref('') // 更新时间格式：05月30日
   const rank_title_msg = [ // 排行榜标题信息：title_id(采集时的分类id),title_name(标题名),table_name(自定义数据库的表名)
@@ -105,8 +103,10 @@ if(wyy_music_cache_log){ // 如果存在本地缓存，根据缓存记录,获取
     // 显示更新时间
     update_time.value = time.hs_time_format(selected_title_msg.cache_time, 'Y/m/d')
     // 赋值页面标题下数据
-    db.query(`select * from ${selected_title_msg.table_name}`).then((result)=>{
-      tableData.value = result
+  musicStore.db.query(`select * from ${selected_title_msg.table_name}`).then((result)=>{
+      if(result && result.code === 200 ){
+        tableData.value = result.msg
+      }
     }).catch((error)=>{
       error_data.value = error;
     })
@@ -124,9 +124,9 @@ if(wyy_music_cache_log){ // 如果存在本地缓存，根据缓存记录,获取
     tableData.value = format_line_music
 
     // 插入数据到数据库
-    await db.clear(`DELETE FROM ${rank_title_msg[0].table_name}`) // 新增前先清空表数据
-    db.add_more(rank_title_msg[0].table_name, format_line_music).then((result) => {
-      if (result === "ok") {
+    await musicStore.db.clear(`DELETE FROM ${rank_title_msg[0].table_name}`) // 新增前先清空表数据
+    musicStore.db.add_more(rank_title_msg[0].table_name, format_line_music).then((result) => {
+      if (result && result.code === 200 ) {
         const cur_timestamp = Date.now()
         // 本地存储记录缓存日志
         const cacheData = {
@@ -173,10 +173,12 @@ if(wyy_music_cache_log){ // 如果存在本地缓存，根据缓存记录,获取
       // 赋值页面标题
       const selected_table_name = wyy_music_cache_log_array.wyy.rank.category[wyy_music_cache_log_array.wyy.rank.category_index].table_name
       // 赋值页面标题下数据
-      db.query(`select * from ${selected_table_name}`).then((result) => {
-        tableData.value = result
-        // 显示更新时间
-        update_time.value = time.hs_time_format(wyy_music_cache_log_array.wyy.rank.category[index].cache_time, 'Y/m/d')
+      musicStore.db.query(`select * from ${selected_table_name}`).then((result) => {
+        if(result && result.code === 200 ){
+          tableData.value = result.msg
+          // 显示更新时间
+          update_time.value = time.hs_time_format(wyy_music_cache_log_array.wyy.rank.category[index].cache_time, 'Y/m/d')
+        }
       }).catch((error) => {
         error_data.value = error;
       })
@@ -194,9 +196,9 @@ if(wyy_music_cache_log){ // 如果存在本地缓存，根据缓存记录,获取
         tableData.value = format_line_music
 
         // 插入数据到数据库
-        await db.clear(`DELETE FROM ${rank_title_msg[index].table_name}`) // 新增前先清空表数据
-        db.add_more(rank_title_msg[index].table_name, format_line_music).then((result) => {
-          if (result === "ok") {
+        await musicStore.db.clear(`DELETE FROM ${rank_title_msg[index].table_name}`) // 新增前先清空表数据
+        musicStore.db.add_more(rank_title_msg[index].table_name, format_line_music).then((result) => {
+          if (result && result.code === 200) {
             // 本地存储修改缓存日志
             const cur_timestamp = Date.now()
             wyy_music_cache_log_array.wyy.rank.category[index].cache_time = cur_timestamp
@@ -214,7 +216,7 @@ if(wyy_music_cache_log){ // 如果存在本地缓存，根据缓存记录,获取
   }
 
 
-  /*更新缓存*/
+  /*更新排行榜*/
 const on_update_cache = ()=>{
   const wyy_music_cache_log = localStorage.getItem("hs_walked_music_position_log") // 获取最新缓存日志
   const wyy_music_cache_log_array = JSON.parse(wyy_music_cache_log)
@@ -235,13 +237,13 @@ const on_update_cache = ()=>{
           tableData.value = format_line_music
 
           // 清空表数据
-          db.clear(`DELETE FROM ${cur_title_msg.table_name}`).then((result)=>{
+          musicStore.db.clear(`DELETE FROM ${cur_title_msg.table_name}`).then((result)=>{
             if(result === "ok"){
               console.log("表数据已清空！")
 
               // 插入数据到数据库
-              db.add_more(cur_title_msg.table_name, format_line_music).then((result) => {
-                if (result === "ok") {
+              musicStore.db.add_more(cur_title_msg.table_name, format_line_music).then((result) => {
+                if (result && result.code === 200) {
                   // 本地存储修改缓存日志
                   const cur_timestamp = Date.now()
                   wyy_music_cache_log_array.wyy.rank.category[wyy_music_cache_log_array.wyy.rank.category_index].cache_time = cur_timestamp
@@ -290,25 +292,28 @@ const on_click_player = (table_val, table_index)=>{
     }
   }
 
-  // 当前排行榜音乐赋值到播放列表
-  musicStore.musicList.push(table_val)
-  musicStore.songIndexObj.index = musicStore.musicList.length - 1
-
   //新增到 数据库我的音乐列表
-  db.add(
+  musicStore.db.add(
       `INSERT INTO my_playing_music_list(music_id, title, img, src, lyric, duration, artists_name) VALUES (?,?,?,?,?,?,?)`,
       [
-        musicStore.curPlayMusicObj.music_id,
-        musicStore.curPlayMusicObj.title,
-        musicStore.curPlayMusicObj.img,
-        musicStore.curPlayMusicObj.src,
-        musicStore.curPlayMusicObj.lyric,
-        musicStore.curPlayMusicObj.duration,
-        musicStore.curPlayMusicObj.artists_name
+        table_val.music_id,
+        table_val.title,
+        table_val.img,
+        table_val.src,
+        table_val.lyric,
+        table_val.duration,
+        table_val.artists_name
       ]
-  ).then((result)=>{
-    if(result === "ok"){
-      console.log("我的音乐已加入到数据库")
+  ).then(async (result) => {
+    if (result && result.code === 200) {
+      console.log("我的音乐已加入到本地数据库")
+
+      // 当前排行榜音乐赋值到播放列表
+      musicStore.musicList.push(table_val)
+      musicStore.songIndexObj.index = musicStore.musicList.length - 1
+
+    } else {
+      console.log(result)
     }
   }).catch((error)=>{
     console.log(error)
