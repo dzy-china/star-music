@@ -8,6 +8,13 @@ export const useMusicStore = defineStore('music', () => {
     let songIndexObj = ref({index:0}); // 当前音乐的索引,默认从第一首开始
     const audioRef = ref(null); //音乐对象
     const db = new ApiSqlite(path.resolve(import.meta.env.DEV?"public/":"resources/", "db/music_data.db"));
+    // 搜索的音乐数据
+    const search_music_data = ref({
+        startOffset:0, // 起始索引
+        pageSize:10, // 每页条数
+        totalCount:0, // 总条数
+        data: []  // 数据
+    });
 
     //正在播放的音乐数据
     const curPlayMusicObj = computed(() => musicList.value.length>0 ? musicList.value[songIndexObj.value.index]:({}) );
@@ -17,6 +24,7 @@ export const useMusicStore = defineStore('music', () => {
         songIndexObj,
         audioRef,
         curPlayMusicObj,
-        db
+        db,
+        search_music_data
     }
 })

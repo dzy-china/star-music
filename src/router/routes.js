@@ -24,6 +24,10 @@ const router = createRouter({
                     component: () => import("../pages/rank")
                 },
                 {
+                    path:"search",
+                    component: () => import("../pages/search")
+                },
+                {
                     path:"my_playing_music",
                     component: () => import("../pages/my_playing_music")
                 },

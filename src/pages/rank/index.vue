@@ -14,13 +14,13 @@
       <div class="hs-color-white-05 hs-font-size-09 hs-position-absolute hs-right-15" v-show="update_time!==''">最近更新: {{ update_time }} <span class="hs-color-warning hs-cursor-pointer" @click="on_update_cache">更新</span></div>
     </div>
     <!--歌曲列表-->
-    <div class="hs-overflow-auto hs-scrollbar" style="height:calc(100% - 60px)">
+    <div class="hs-overflow-auto hs-scrollbar " style="height:calc(100% - 60px);">
       <template v-if="tableData">
-        <div class="hs-padding-left-right-15 hs-background-color-white-01">
-        <table class="hs-width-00100  hs-height-00100   hs-color-white hs-child-text-align-left hs-box-sizing-border-box    " style="border-collapse: collapse;">
+        <div class="hs-padding-left-right-15" >
+        <table class="hs-width-00100  hs-height-00100 hs-color-white hs-child-text-align-left hs-box-sizing-border-box" style="border-collapse: collapse;">
           <thead>
-          <tr class="hs-top-0 hs-position-sticky hs-color-warning hs-line-height-25" style="background-color: #5E5E5E;">
-            <th>#</th>
+          <tr class="hs-top-0 hs-position-sticky hs-color-warning hs-line-height-25 " style="background-color: #5E5E5E;">
+            <th class="hs-padding-left-10">#</th>
             <th>标题</th>
             <th>时长</th>
             <th>歌手</th>
@@ -28,11 +28,11 @@
           </thead>
           <tbody class="hs-child-line-height-30">
           <tr v-for="(table_val, table_index) in tableData" class="hs-hover-background-color-warning-01">
-            <td >{{table_index + 1}}</td>
+            <td class="hs-padding-left-10">{{table_index + 1}}</td>
             <td @click="on_click_player(table_val, table_index)" class="hs-cursor-pointer" >
               <svg t="1716622574214" class="hs-vertical-align-middle  " viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2624" width="20" height="20"><path d="M512 0C230.4 0 0 230.4 0 512s230.4 512 512 512 512-230.4 512-512S793.6 0 512 0z m0 981.333333C253.866667 981.333333 42.666667 770.133333 42.666667 512S253.866667 42.666667 512 42.666667s469.333333 211.2 469.333333 469.333333-211.2 469.333333-469.333333 469.333333z" fill="currentColor" p-id="2625"></path><path d="M672 441.6l-170.666667-113.066667c-57.6-38.4-106.666667-12.8-106.666666 57.6v256c0 70.4 46.933333 96 106.666666 57.6l170.666667-113.066666c57.6-42.666667 57.6-106.666667 0-145.066667z" fill="currentColor" p-id="2626"></path></svg>
-              <span class="hs-vertical-align-middle hs-margin-left-5 ">{{common_str_action.hs_substr_format(table_val.title, 15)}}</span></td>
-            <td >{{time.milsecToMinSec(table_val.duration)}}</td>
+              <span class="hs-vertical-align-middle hs-margin-left-5 " :title="table_val.title">{{common_str_action.hs_substr_format(table_val.title, 10)}}</span></td>
+            <td >{{time.timeToCustomFormat(table_val.duration, 'mm:ss')}}</td>
             <td >{{table_val.artists_name}}</td>
           </tr>
           </tbody>
@@ -53,7 +53,7 @@
 
 <script setup>
 /*导入值*/
-  import format_line_music_rank_to_local from "page@/rank/format_line_music_rank_to_local";
+  import format_line_music_rank_to_local from "./format_line_music_rank_to_local";
 
   const cheerio = require('cheerio');
   import Http from "@/js/Http"
@@ -238,7 +238,7 @@ const on_update_cache = ()=>{
 
           // 清空表数据
           musicStore.db.clear(`DELETE FROM ${cur_title_msg.table_name}`).then((result)=>{
-            if(result === "ok"){
+            if(result && result.code === 200){
               console.log("表数据已清空！")
 
               // 插入数据到数据库
@@ -251,7 +251,7 @@ const on_update_cache = ()=>{
 
                   // 显示更新时间
                   update_time.value = time.hs_time_format(cur_timestamp, 'Y/m/d')
-                  console.log(cur_title_msg.table_name + "表已成功缓存！")
+                  console.log(cur_title_msg.table_name + "表已成功持久化到本地数据库！")
                   ElMessage({
                     showClose: true,
                     duration:2000,
@@ -285,7 +285,7 @@ const on_click_player = (table_val, table_index)=>{
       ElMessage({
         showClose: true,
         duration:2000,
-        message: '我的音乐已存在，不必重复添加！',
+        message: '历史播放已存在，不必重复添加！',
         type: 'warning',
       })
       return
@@ -306,7 +306,7 @@ const on_click_player = (table_val, table_index)=>{
       ]
   ).then(async (result) => {
     if (result && result.code === 200) {
-      console.log("我的音乐已加入到本地数据库")
+      console.log("音乐已加入到本地数据库")
 
       // 当前排行榜音乐赋值到播放列表
       musicStore.musicList.push(table_val)

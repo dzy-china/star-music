@@ -64,7 +64,8 @@
   // 滚动歌词
   const lyricRoll=()=> {
     if(musicStore.curPlayMusicObj.lyric){
-      const currentDate=hs_time.secToMinSecMilsec(musicStore.audioRef.currentTime); // musicStore.audioRef.currentTime当前播放时间(3.125031)：后面存在6位小数，单位为秒
+      // musicStore.audioRef.currentTime当前播放时间(3.125031)：后面存在6位小数，单位为秒
+      const currentDate=hs_time.timeToCustomFormat(musicStore.audioRef.currentTime, 'mm:ss:SS', false);
       for (let i = 0; i < lyricList.value.length; i++) {
         if (lyricList.value[i + 1] && (currentDate > lyricList.value[i].time && currentDate < lyricList.value[i + 1].time)) { // 如果存在下一句，并且当前播放时间位于上下句之间
           currentLycIndex.value=i;

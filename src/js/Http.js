@@ -1,11 +1,18 @@
 let node_url = require('url')
 let node_qs = require('querystring')
 /**
- // 发送http请求示例
+ 纯 nodejs 环境 http客户端
+ 使用示例
     import Http from "@/js/Http"
      new Http({
-        url:'http://127.0.0.1:8421/test?address=shanghai', // 请求网址
-        method:'get', // 请求方式，默认值： 'get'
+         url:'http://127.0.0.1:8421/test?address=shanghai', //自定义参数：请求网址
+         method:'get', // 请求方式，不区分大小写，默认值： 'GET'
+         params:{}, //自定义参数：url请求参数,该参数会拼接在url后面
+         data:{}, //自定义参数：post请求参数,get请求时，该参数会被忽略
+         // 发送请求头
+         headers:{
+         'Content-Type':'application/json'
+         }
      }).go().then(data => {
         console.log('Received data:', data);
      }).catch(err => {
@@ -20,9 +27,9 @@ export default class Http {
     // 默认http基本参数
     default_http_option={
         url:'http://127.0.0.1', //自定义参数：请求网址
-        method:'get', // 请求方式，默认值： 'GET'
-        params:{}, //自定义参数：get请求参数
-        data:{}, //自定义参数：post请求参数
+        method:'get', // 请求方式，不区分大小写，默认值： 'GET'
+        params:{}, //自定义参数：url请求参数,该参数会拼接在url后面
+        data:{}, //自定义参数：post请求参数,get请求时，该参数会被忽略
         // 发送请求头
         headers:{
             'Content-Type':'application/json'
@@ -49,7 +56,7 @@ export default class Http {
         }
         this.http_option.path = parsedUrl.pathname + parsedUrl.search
         this.http_option.method = this.http_option.method.toUpperCase()
-        if(Object.keys(this.http_option.data).length>0){ // data处理
+        if(this.http_option.method === 'POST' && Object.keys(this.http_option.data).length>0){ // data处理
             this.http_option['headers']['Content-Length'] = Buffer.byteLength(JSON.stringify(this.http_option.data))
         }
         if(Object.keys(this.http_option.params).length>0){ // params处理

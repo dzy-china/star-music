@@ -58,10 +58,34 @@
 
     /*监听音频是否能正确播放*/
     musicStore.audioRef.addEventListener('canplaythrough', function() {
+      console.log("音乐可以播放！")
       /*如果歌词不存在，获取歌词*/
       if(musicStore.curPlayMusicObj.lyric===""){ //判断歌词是否存在
         console.log("歌词不存在,触发了动态加载歌词！")
-        common_api_action.hs_get_wyy_music_lyric(musicStore.curPlayMusicObj.music_id).then(async (data) => { // ajax在线获取歌词
+
+        // 利用 官方api 获取歌词(优选方案)
+        common_api_action.hs_get_music_lyric(musicStore.curPlayMusicObj.music_id).then(async (data) => { // ajax在线获取歌词
+          // 首先给当前播放音乐赋值歌词
+          musicStore.curPlayMusicObj.lyric = data
+
+          //  将歌词数据保存到本地数据库
+          musicStore.db.update(
+              'update my_playing_music_list set lyric=? where music_id=?',
+              [data, musicStore.curPlayMusicObj.music_id]
+          ).then((result)=>{
+            if(result && result.code ===200 ){
+              console.log("歌词已加入到本地数据库！")
+            }else{
+              console.log(result)
+            }
+          })
+
+        }).catch((err)=>{
+          console.log(err)
+        })
+/*
+ 利用 puppeteer 模拟浏览器请求获取歌词(备选方案)
+ common_api_action.hs_get_wyy_music_lyric(musicStore.curPlayMusicObj.music_id).then(async (data) => { // ajax在线获取歌词
           // 首先给当前播放音乐赋值歌词
           musicStore.curPlayMusicObj.lyric = data.lrc.lyric
 
@@ -78,7 +102,7 @@
             })
         }).catch((err)=>{
           console.log(err)
-        })
+        })*/
       }
     });
 

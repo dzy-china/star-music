@@ -1,6 +1,36 @@
 const puppeteer = require('puppeteer');
+import Http from "@/js/Http"
 
 export default{
+
+	/**
+	 *  利用 官方api 获取歌词(优选方案)
+	 * @param music_id
+	 * @returns {Promise<unknown>}
+	 */
+	hs_get_music_lyric(music_id){
+		return new Promise( async (resolve, reject)=>{
+			new Http({
+				url:`https://music.163.com/api/song/lyric?os=pc&id=${music_id}&lv=-1&kv=-1&tv=-1`, //自定义参数：请求网址
+				method:'get', // 请求方式，不区分大小写，默认值： 'GET'
+			}).go().then(data => {
+				let dataJson = JSON.parse(data)
+				if(dataJson?.lrc?.lyric && dataJson?.lrc?.lyric!==''){
+					resolve(dataJson.lrc.lyric);
+				}else{
+					reject(dataJson);
+				}
+			}).catch(err => {
+				reject(err);
+			});
+		})
+	},
+
+	/**
+	 *  利用 puppeteer 模拟浏览器请求获取歌词(备选方案)
+	 * @param music_id
+	 * @returns {Promise<unknown>}
+	 */
 	 hs_get_wyy_music_lyric(music_id){
 		return new Promise( async (resolve, reject)=>{
 			// 启动浏览器

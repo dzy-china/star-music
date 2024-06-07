@@ -57,34 +57,41 @@ export default {
     },
 
     /**
-     * 秒转换=>分:秒:毫秒的格式
-     * @param second
+     * 时间(秒或毫秒)转换为自定义格式的字符串
+     * @param time 时间，单位为毫秒或秒
+     * @param format 格式字符串，例如 'mm:ss.SSS' 表示分:秒.毫秒
+     * @param isMillisecond 输入时间是否为毫秒，默认为true
+     * @returns 根据指定格式返回时间字符串
      */
-    secToMinSecMilsec(second:number): string  {
-        if (second) {
-            const minutes = Math.floor(second / 60);
-            const remainingSeconds = second % 60;
-            const formattedMinutes = String(minutes).padStart(2, '0');
-            const formattedSeconds = remainingSeconds.toFixed(2).replace('.', ':').padStart(5, '0');
-            return `${formattedMinutes}:${formattedSeconds}`; //示例： 02:18:25
-        } else {
-            return "00:00:00";
-        }
-    },
+    timeToCustomFormat(time: number, format: string, isMillisecond: boolean = true): string {
+        // 如果时间未定义或为0，将格式中的时间单位替换为相应数量的0
+        if (!time) return format.replace(/([hmsHMS]+)/g, match => '0'.repeat(match.length));
 
-    /**
-     * 豪秒转换=>分:秒的格式
-     * @param millisecond
-     */
-    milsecToMinSec(millisecond:number): string  {
-        if (millisecond) {
-            const minutes = Math.floor(millisecond /1000/ 60);
-            const remainingSeconds = (millisecond/1000) % 60;
-            const formattedMinutes = String(minutes).padStart(2, '0');
-            const formattedSeconds = String(Math.floor(remainingSeconds)).padStart(2, '0');
-            return `${formattedMinutes}:${formattedSeconds}`; //示例： 02:18
-        } else {
-            return "00:00";
-        }
+        // 根据输入是否为毫秒计算总秒数
+        const totalSeconds = isMillisecond ? time / 1000 : time;
+        // 计算小时数
+        const hours = Math.floor(totalSeconds / 3600);
+        // 计算分钟数
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        // 计算秒数
+        const seconds = Math.floor(totalSeconds % 60);
+        // 计算毫秒数
+        const milliseconds = Math.floor((totalSeconds - Math.floor(totalSeconds)) * 1000);
+
+        // 格式映射表，用于将时间单位转换为字符串，并根据格式进行填充
+        const formatMap = {
+            'HH': String(hours).padStart(2, '0'), // 两位小时数，不足补0
+            'H': String(hours), // 小时数，不补0
+            'mm': String(minutes).padStart(2, '0'), // 两位分钟数，不足补0
+            'm': String(minutes), // 分钟数，不补0
+            'ss': String(seconds).padStart(2, '0'), // 两位秒数，不足补0
+            's': String(seconds), // 秒数，不补0
+            'SSS': String(milliseconds).padStart(3, '0'), // 三位毫秒数，不足补0
+            'SS': String(Math.floor(milliseconds / 10)).padStart(2, '0'), // 两位毫秒数，不足补0
+            'S': String(Math.floor(milliseconds / 100)) // 一位毫秒数
+        };
+
+        // 替换格式字符串中的时间单位为实际的时间值
+        return format.replace(/(HH|H|mm|m|ss|s|SSS|SS|S)/g, matched => formatMap[matched] || matched);
     }
 }
