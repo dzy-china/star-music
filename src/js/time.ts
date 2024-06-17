@@ -40,7 +40,7 @@ export default {
     },
 
     /**
-     * 根据提供的时间戳，获取下一日起始时间戳
+     * 根据提供的时间戳，获取下一日起始时间戳(毫秒)
      * @param timestamp
      */
     getNextDayZeroTimestamp(timestamp:number):number {
@@ -93,5 +93,32 @@ export default {
 
         // 替换格式字符串中的时间单位为实际的时间值
         return format.replace(/(HH|H|mm|m|ss|s|SSS|SS|S)/g, matched => formatMap[matched] || matched);
+    },
+
+    /**
+     * 获取今日开始的秒时间戳
+     */
+    getTodayStartTimestampInSeconds() {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // 设置时间为今天的00:00:00
+        return Math.floor(today.getTime() / 1000); // 转换为秒并返回
+    },
+
+    /**
+     * 今日结束的秒时间戳
+     */
+    getTodayEndTimestampInSeconds() {
+        const today = new Date();
+        today.setHours(23, 59, 59, 999); // 设置时间为今天的23:59:59.999
+        return Math.floor(today.getTime() / 1000); // 转换为秒并返回，.999毫秒确保是最后一秒
+    },
+    /**
+     * 获取某天前或后开始的秒时间戳，-7表示7天前，7表示7天后
+     */
+    getOneDayStartTimestampInSeconds(day:number) {
+        const oneWeekAgo = new Date();
+        oneWeekAgo.setDate(oneWeekAgo.getDate() + day); // 回溯day天
+        oneWeekAgo.setHours(0, 0, 0, 0); // 设置时间为那天的00:00:00
+        return Math.floor(oneWeekAgo.getTime() / 1000); // 转换为秒并返回
     }
 }

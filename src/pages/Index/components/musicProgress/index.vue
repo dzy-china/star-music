@@ -18,7 +18,11 @@ const progressRef=ref('') //进度条对象
  * 更新进度条
  */
   const  updateProgress=()=> {
-    progressRef.value.style.width = `${(musicStore.audioRef.currentTime / musicStore.audioRef.duration) * 100}%`
+    if(isNaN(musicStore.audioRef.duration )){
+      progressRef.value.style.width = 0
+    }else{
+      progressRef.value.style.width = `${musicStore.audioRef.currentTime / musicStore.audioRef.duration * 100}%`
+    }
   }
 
 /**
@@ -38,8 +42,12 @@ const setProgressBtn=(event)=> {
       updateProgress()
     });
   });
+
+
+/**
+ * 监听器( musicStore.songIndexObj 值改变时会触发)
+ */
+watch(() => musicStore.curPlayMusicObj, function (value, oldvalue) {
+  updateProgress() // 更新进度条
+})
 </script>
-
-<style scoped>
-
-</style>

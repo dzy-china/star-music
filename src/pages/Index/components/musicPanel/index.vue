@@ -2,20 +2,17 @@
   <!--音乐控制面板-->
   <div class="hs-position-absolute hs-top-0050 hs-left-0050 hs-transform-translate--0050" >
       <el-button @click="switchSong(false)">上一首</el-button>
-      <el-button @click="pauseOrPlaySong()" v-show="!paused">暂停</el-button>
-      <el-button @click="pauseOrPlaySong()" v-show="paused">播放</el-button>
+      <el-button @click="pauseOrPlaySong()" v-show="!musicStore.isPaused" >暂停</el-button>
+      <el-button @click="pauseOrPlaySong()" v-show="musicStore.isPaused">播放</el-button>
       <el-button @click="switchSong(true)" >下一首</el-button>
   </div>
 </template>
 
 <script setup>
-    import {ref} from "vue";
     import common_api_action from "@/js/common_api_action";
     import { useMusicStore } from "@/store/music";
 
     const musicStore = useMusicStore()
-
-    const paused = ref (true); // 是否暂停
 
     /**
      * 换音乐(下一首或上一首)
@@ -46,7 +43,7 @@
      */
     const  pauseOrPlaySong=()=> {
       musicStore.audioRef.paused? musicStore.audioRef.play():musicStore.audioRef.pause();
-      paused.value = musicStore.audioRef.paused
+      musicStore.isPaused = musicStore.audioRef.paused
     }
 
     // dom挂载完成事件
@@ -70,7 +67,7 @@
 
           //  将歌词数据保存到本地数据库
           musicStore.db.update(
-              'update my_playing_music_list set lyric=? where music_id=?',
+              'update music_play_list set lyric=? where music_id=?',
               [data, musicStore.curPlayMusicObj.music_id]
           ).then((result)=>{
             if(result && result.code ===200 ){
@@ -91,7 +88,7 @@
 
             //  将歌词数据保存到本地数据库
             musicStore.db.update(
-                'update my_playing_music_list set lyric=? where music_id=?',
+                'update music_play_list set lyric=? where music_id=?',
                 [data.lrc.lyric, musicStore.curPlayMusicObj.music_id]
             ).then((result)=>{
               if(result && result.code ===200 ){
@@ -113,13 +110,9 @@
       ElMessage({
         showClose: true,
         duration:3000,
-        message: '音频文件加载失败,已为您自动跳过！',
+        message: '音频文件加载失败！',
         type: 'warning',
       })
     });
   });
 </script>
-
-<style scoped>
-
-</style>

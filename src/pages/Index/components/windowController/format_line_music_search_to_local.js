@@ -11,10 +11,9 @@ export default (line_music_data)=> {
     }
 
     const code = line_music_data.code
-    if(code === 200 ){
+    if(code === 200 && line_music_data?.result?.songCount>0){
         wyy_music_search_data.totalCount = line_music_data.result.songCount // 总音乐条数
         const line_music_array = line_music_data.result.songs // 音乐数据
-
         for (const music_array_val of line_music_array) {
             let music_id = music_array_val.id
             let title = music_array_val.name

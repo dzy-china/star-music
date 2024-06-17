@@ -7,7 +7,9 @@ export const useMusicStore = defineStore('music', () => {
     const musicList = ref([]); ////歌曲列表
     let songIndexObj = ref({index:0}); // 当前音乐的索引,默认从第一首开始
     const audioRef = ref(null); //音乐对象
+    const isPaused = ref(true); // 音乐是否处于暂停状态(主要记录最近的能正常播放音乐的最后播放状态)
     const db = new ApiSqlite(path.resolve(import.meta.env.DEV?"public/":"resources/", "db/music_data.db"));
+
     // 搜索的音乐数据
     const search_music_data = ref({
         startOffset:0, // 起始索引
@@ -23,6 +25,7 @@ export const useMusicStore = defineStore('music', () => {
         musicList,
         songIndexObj,
         audioRef,
+        isPaused,
         curPlayMusicObj,
         db,
         search_music_data

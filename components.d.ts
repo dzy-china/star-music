@@ -12,13 +12,6 @@ declare module 'vue' {
     ElInput: typeof import('element-plus/es')['ElInput']
     Footer: typeof import('./src/components/Footer/index.vue')['default']
     Header: typeof import('./src/components/Header/index.vue')['default']
-    HsMusic: typeof import('./src/components/hsMusic/index.vue')['default']
-    'Index备份': typeof import('./src/components/hsMusic/index备份.vue')['default']
-    MusicActive: typeof import('./src/pages/Index/components/musicActive/index.vue')['default']
-    MusicLyric: typeof import('./src/pages/recommend/components/musicLyric/index.vue')['default']
-    MusicPanel: typeof import('./src/pages/Index/components/musicPanel/index.vue')['default']
-    MusicProgress: typeof import('./src/pages/Index/components/musicProgress/index.vue')['default']
-    RotateCube: typeof import('./src/pages/recommend/components/RotateCube/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

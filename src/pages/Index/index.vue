@@ -6,7 +6,7 @@
   <div class="hs-height-100-vh" >
     <!--头部标题部分-->
     <div class="hs-height-65  hs-row-start-center hs-padding-left-30 hs-font-size-0105 hs-box-sizing-border-box hs-background-color-black-08 hs-color-white" style="-webkit-app-region: drag;">
-      <div class="hs-row-center-center">
+      <div class="hs-row-center-center hs-color-warning">
         <svg t="1716833423743" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2958" width="30" height="30"><path d="M540.574476 183.198476c-10.630095-32.377905-26.624-88.405333-48.030476-168.228571l-121.07581 374.003809H0A41950.841905 41950.841905 0 0 1 142.384762 512c38.912 33.889524 96.060952 95.670857 96.060952 117.51619 0 21.796571 28.086857-13.55581 28.086857-28.18438 0-14.628571 0.975238-36.571429-13.507047-55.442286-9.752381-12.580571-51.590095-46.518857-125.610667-101.766095H409.112381L484.888381 167.740952c18.383238 58.660571 33.158095 97.328762 44.373333 115.95581 16.822857 28.038095 34.230857 56.710095 54.125715 56.710095 13.263238 0 33.938286-2.779429 62.025142-8.387047l13.507048-25.356191c-30.378667-3.510857-50.712381-9.264762-60.952381-17.16419-15.311238-11.946667-41.447619-57.831619-57.392762-106.349715z" fill="currentColor" p-id="2959"></path><path d="M803.303619 266.386286c-63.634286 34.03581-205.287619 98.694095-235.227429 134.436571-29.988571 35.693714-23.30819 81.578667-52.370285 104.399238-29.062095 22.820571-63.975619 6.972952-96.548572 12.53181-21.650286 3.657143-43.25181 13.06819-64.804571 28.135619-69.827048 82.70019-100.10819 124.001524-90.843429 124.001524 6.192762 0 62.317714-76.946286 135.558096-102.790096 36.473905-12.873143 97.718857 24.137143 144.335238-12.629333 46.665143-36.717714 38.326857-66.852571 55.588571-105.715809 17.261714-38.863238 33.889524-34.474667 111.323429-75.190858 77.385143-40.71619 161.889524-80.847238 173.104762-98.986666 11.264-18.18819 18.090667-71.875048 18.090666-97.133715s-34.523429 54.905905-98.206476 88.941715z" fill="currentColor" p-id="2960"></path><path d="M380.342857 594.066286c3.120762 9.752381 8.923429 14.628571 17.408 14.628571s18.919619-4.096 31.353905-12.336762l-48.761905-2.291809zM904.582095 299.641905c-12.092952 27.843048-25.502476 45.153524-40.228571 51.882666-22.089143 10.093714-194.56 95.963429-228.010667 133.461334-33.499429 37.497905-10.142476 134.095238-6.339047 138.727619 3.705905 4.681143 15.60381-18.383238 17.017904-45.251048 1.414095-26.86781 1.560381-55.05219 39.204572-82.407619 37.692952-27.306667 119.466667-65.926095 166.765714-90.697143 47.34781-24.673524 59.392-35.05981 60.854857-62.610285 0.975238-18.334476-2.145524-32.719238-9.264762-43.105524z" fill="currentColor" p-id="2961"></path><path d="M909.165714 390.095238c-5.071238 25.551238-20.333714 44.568381-45.689904 57.100191-38.034286 18.822095-132.827429 61.68381-160.280381 92.647619-27.452952 30.96381-33.987048 63.878095-29.842286 99.474285 2.730667 23.79581 2.730667 40.228571 0 49.444572 6.339048-14.238476 12.970667-31.98781 19.699809-53.248 10.142476-31.841524 17.700571-60.074667 86.698667-102.4 69.046857-42.422857 116.297143-48.225524 129.414095-69.973334 8.777143-14.482286 8.777143-38.814476 0-73.045333z" fill="currentColor" p-id="2962"></path><path d="M915.748571 506.148571c-61.44 34.425905-98.304 55.686095-110.592 63.878096-18.432 12.239238-64.463238 46.031238-82.115047 77.238857-17.603048 31.207619-29.744762 84.114286 13.848381 122.099809 43.593143 37.985524 83.772952 21.942857 104.350476 8.143238 20.577524-13.750857 25.6-68.461714 11.068952-85.333333-14.482286-16.871619-14.482286 36.278857-34.767238 49.005714-20.284952 12.678095-84.504381 19.602286-72.899047-49.005714s107.666286-106.203429 136.582095-122.148571c19.309714-10.630095 30.768762-31.939048 34.474667-63.878096zM263.509333 669.891048c51.882667-2.535619 96.938667-0.682667 135.119238 5.607619 57.344 9.45981 166.326857 88.405333 183.100953 105.813333 16.725333 17.408-4.778667 14.238476-33.401905 49.785905-28.672 35.59619-28.672 85.625905 0 107.958857 28.623238 22.332952 147.748571 3.657143 158.671238 0 7.314286-2.438095-18.870857-11.410286-78.506667-26.819048-43.836952-0.975238-61.001143-10.044952-51.541333-27.209143 14.238476-25.84381 53.979429-63.24419 66.072381-79.969523 12.04419-16.676571 5.851429-44.470857-38.912-73.094096-44.763429-28.574476-131.754667-81.773714-184.124952-92.94019-52.419048-11.117714-62.70781-10.435048-101.522286 0-25.84381 7.021714-44.178286 17.310476-54.954667 30.866286z" fill="currentColor" p-id="2963"></path><path d="M258.048 703.390476c-0.097524 11.068952-9.020952 40.667429-26.770286 88.746667-17.749333 48.128-38.278095 115.614476-61.635047 202.556952 139.02019-104.69181 223.670857-165.497905 253.903238-182.369524 30.232381-16.871619 66.511238-23.600762 108.787809-20.187428-15.701333-19.602286-33.645714-29.403429-53.881904-29.403429-30.378667 0-77.921524 1.657905-112.932572 25.648762-23.405714 15.945143-59.196952 44.129524-107.471238 84.504381 20.675048-47.932952 33.840762-82.553905 39.497143-103.911619 8.43581-32.085333 17.749333-79.043048-7.168-79.043048-16.579048 0-27.355429 4.486095-32.329143 13.458286z" fill="currentColor" p-id="2964"></path></svg>
         <span class="hs-margin-left-5 hs-font-size-09">星云音乐</span>
       </div>
@@ -19,21 +19,27 @@
     <div class='hs-width-00100 hs-row-  ' style="height:calc(100% - 80px - 65px);">
       <!--左侧菜单-->
       <div class="hs-width-0020 hs-height-00100 hs-col- hs-color-white hs-background-color-black-08 hs-padding-left-right-15 hs-border-top-1-solid-gray-02 hs-box-sizing-border-box  hs-child-ini hs-child-padding-left-right-15 hs-child-height-40  hs-child-line-height-40  hs-child-display-inline-block hs-child-cursor-pointer hs-child-hover-background-color-white-01 hs-child-border-radius-10 hs-child-margin-top-5">
-          <router-link to="/category"  active-class="hs-background-color-white-01 ">
+<!--
+  。。。有缘再续。。。
+
+        <router-link to="/category"  active-class="hs-background-color-white-01 ">
             分类
           </router-link>
+
+。。。有缘再续。。。
+          -->
 
           <router-link to="/rank"  active-class="hs-background-color-white-01">
             排行榜
           </router-link>
 
-          <router-link to="/my_playing_music"  active-class="hs-background-color-white-01">
-            历史播放
+          <router-link to="/play_list"  active-class="hs-background-color-white-01">
+            播放列表
           </router-link>
       </div>
 
       <!--被嵌套路由内容显示 -->
-      <div class="hs-width-0080 hs-row- hs-background-color-black-07">
+      <div class="hs-flex-grow-1 hs-background-color-black-07">
         <router-view/>
       </div>
     </div>
@@ -66,31 +72,37 @@ const audioRef = ref(null)
 
 // dom挂载完成事件
 onMounted( async () => {
+  // 初始化音乐播放器元素
   musicStore.audioRef = audioRef.value
-  const hs_playing_music_index = localStorage.getItem("hs_playing_music_index")
+
   // 初始化音乐数据和索引
-  const result = await musicStore.db.query("select * from my_playing_music_list")
-  if(result && result.code === 200 ){
+  const result = await musicStore.db.query("select * from music_play_list")
+  if(result?.msg?.length>0){
     musicStore.musicList = result.msg
   }
-  if( hs_playing_music_index && musicStore.musicList[hs_playing_music_index] ){
-    musicStore.songIndexObj.index = +hs_playing_music_index // 数字字符串转数字
-  }else{
-    musicStore.songIndexObj.index = 0
-  }
 
-  // 赋值音乐播放地址
-  musicStore.audioRef.src=musicStore.curPlayMusicObj.src;
+  const hs_playing_music_index = localStorage.getItem("hs_playing_music_index")
+  if( hs_playing_music_index && result?.msg?.length>0){
+    if(musicStore.musicList[hs_playing_music_index]){ // 确保索引值能取到值
+      musicStore.songIndexObj.index = +hs_playing_music_index // +前缀(数字字符串转数字)
+    }else{
+      musicStore.songIndexObj.index = 0
+    }
+  }
 });
 
 /**
  * 监听器( musicStore.songIndexObj 值改变时会触发)
  */
 watch(() => musicStore.curPlayMusicObj, function (value, oldvalue) {
-  // 赋值音乐源开始播放
-  musicStore.audioRef.src=value.src;
-  musicStore.audioRef.play();
-
+  if(!musicStore.isPaused){ // 如果上一个音乐正在播放
+    musicStore.audioRef.src=value.src; // 赋值新的音乐源
+    musicStore.audioRef.play(); // 播放
+  }else{
+    musicStore.audioRef.src=value.src; // 赋值新的音乐源
+  }
+  // 初始化播放时间点
+  musicStore.audioRef.currentTime = 0
   // 记录播放索引值
   localStorage.setItem("hs_playing_music_index", musicStore.songIndexObj.index)
 })

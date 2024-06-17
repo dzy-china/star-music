@@ -9,11 +9,11 @@ const router = createRouter({
         {
             path:"/",
             component: () => import("../pages/Index"),
-            redirect:"recommend", // 利用重定向设置默认显示的嵌套页面
+            redirect:"player_screen", // 利用重定向设置默认显示的嵌套页面
             children:[
                 {
-                    path:"recommend",
-                    component: () => import("../pages/recommend"),
+                    path:"player_screen",
+                    component: () => import("../pages/player_screen"),
                 },
                 {
                     path:"category",
@@ -28,8 +28,8 @@ const router = createRouter({
                     component: () => import("../pages/search")
                 },
                 {
-                    path:"my_playing_music",
-                    component: () => import("../pages/my_playing_music")
+                    path:"play_list",
+                    component: () => import("../pages/play_list")
                 },
                 {
                     path:"test",

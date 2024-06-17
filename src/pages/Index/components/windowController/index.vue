@@ -75,7 +75,16 @@ const on_close = ()=>{
 
 const on_form_input_enter = ()=>{
     const offset = 0
-    const pageSize = 10
+    const pageSize = 25
+
+    // 搜索时弹框提示
+    const ElMessageInstance = ElMessage({
+      showClose: true,
+      duration:0,
+      type: 'warning',
+      message: '正在搜索，请稍等。。。',
+    })
+
     new Http({
       //自定义参数：请求网址
       url:`https://music.163.com/api/search/get/web?csrf_token=hlpretag=&hlposttag=&s=${model_form_input.value}&type=1&offset=${offset}&limit=${pageSize}&total=true`,
@@ -87,7 +96,8 @@ const on_form_input_enter = ()=>{
       musicStore.search_music_data.pageSize = pageSize
       musicStore.search_music_data.totalCount = search_music_data.totalCount
       musicStore.search_music_data.data = search_music_data.data
-
+      // 手动关闭弹框
+      ElMessageInstance.close()
       // 页面跳转
       router.push('/search')
     }).catch(err => {

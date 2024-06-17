@@ -145,7 +145,7 @@ export default class ApiSqlite{
 
     /**
      db.delete(
-     "DELETE FROM hs_routes WHERE id=?",
+     "delete from hs_routes where id=?",
      [7]
      ).then((result)=>{
             console.log(result)
@@ -161,33 +161,6 @@ export default class ApiSqlite{
 
                 // 执行
                 this.db.run(sql, sqlArgs)
-
-                // 数据同步到sqlite文件
-                this.writeSqlite();
-
-                resolve({code:200,msg:'ok'})
-            }catch (e) {
-                reject(e)
-            }
-        })
-    }
-
-    /**
-     db.delete(
-        "DELETE FROM hs_routes"
-     [7]
-     ).then((result)=>{
-        console.log(result)
-     })
-     * @param sql
-     */
-    clear(sql){
-        return new Promise(async (resolve, reject) => {
-            try{
-                // 保证连接对象存在
-                if(!this.db) await this.init_link();
-
-                this.db.run(sql); // 执行sql
 
                 // 数据同步到sqlite文件
                 this.writeSqlite();

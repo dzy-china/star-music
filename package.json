@@ -2,7 +2,7 @@
   "name": "star-music",
   "private": true,
   "version": "0.0.1",
-  "description": "一个简单的音乐播放器",
+  "description": "一个简约低调的音乐播放器",
   "main": "electron/main.js",
   "scripts": {
     "electron:serve": "node command/serve.js",

@@ -1,5 +1,5 @@
 {
-  "productName":"星之火音乐",
+  "productName":"星云音乐",
   "copyright":"Shanghai Huisheng Internet Technology Co., Ltd.",
   "directories": {
     "output": "build"
@@ -16,17 +16,20 @@
   ],
   "nsis": {
     "oneClick": false,
+    "perMachine": true,
+    "allowElevation": true,
     "allowToChangeInstallationDirectory": true,
     "installerIcon": "./public/images/logo.ico",
     "uninstallerIcon": "./public/images/logo.ico",
     "installerHeaderIcon": "./public/images/logo.ico",
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "星之火音乐"
+    "shortcutName": "星云音乐"
   },
 
   "win": {
-    "icon": "./public/images/logo.ico"
+    "icon": "./public/images/logo.ico",
+    "requestedExecutionLevel": "requireAdministrator"
   },
 
   "linux": {
@@ -35,5 +38,8 @@
 
   "mac": {
     "icon": "./public/images/logo.ico"
+  },
+  "electronDownload": {
+    "mirror": "https://mirrors.huaweicloud.com/electron/"
   }
 }

@@ -30,13 +30,11 @@ function createWindow() {
         mainWindow.loadURL(`file://${path.join(__dirname, '../dist/index.html')}`)
     }else{
         mainWindow.loadURL(`http://localhost:${VITE_PORT}`)
-
+        // 打开 DevTools
+        mainWindow.webContents.openDevTools({mode:'undocked'});
+        // 消除electron控制台警告
+        process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
     }
-
-    // 打开 DevTools
-    mainWindow.webContents.openDevTools({mode:'undocked'});
-    // 消除electron控制台警告
-    process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
 
     //关闭因为css: -webkit-app-region: drag;   引起的默认鼠标右键菜单
     // 可拖拽区域右键菜单被触发时事件
