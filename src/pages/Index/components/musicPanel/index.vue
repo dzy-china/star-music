@@ -105,8 +105,6 @@
 
     /*监听播放错误事件*/
     musicStore.audioRef.addEventListener('error', function() {
-     //  下一曲
-     switchSong(true)
       ElMessage({
         showClose: true,
         duration:3000,
